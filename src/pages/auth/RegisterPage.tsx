@@ -13,7 +13,7 @@ export function RegisterPage() {
   const [form] = Form.useForm<RegisterFormValues>()
 
   return (
-    <Card variant="outlined" styles={{ body: { padding: 0 } }}>
+    <Card variant="borderless" styles={{ body: { padding: 0 } }}>
       <header style={{ marginBottom: 18 }}>
         <Typography.Title level={2} style={{ marginBottom: 4 }}>
           Create Account
