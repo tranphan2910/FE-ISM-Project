@@ -1,12 +1,14 @@
-import { Button, Card, Form, Input, Typography } from 'antd'
-import { Link } from 'react-router-dom'
+import { Button, Card, Checkbox, Form, Input, Typography, message } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
 
 type LoginFormValues = {
   email: string
   password: string
+  remember: boolean
 }
 
 export function LoginPage() {
+  const navigate = useNavigate()
   const [form] = Form.useForm<LoginFormValues>()
 
   return (
@@ -27,6 +29,8 @@ export function LoginPage() {
         initialValues={{ remember: true }}
         onFinish={(values) => {
           console.log('login.submit', values)
+          message.success('Signed in successfully')
+          navigate('/')
         }}
       >
         <Form.Item
@@ -47,6 +51,18 @@ export function LoginPage() {
           hasFeedback
         >
           <Input.Password placeholder="••••••••" size="large" />
+        </Form.Item>
+
+        <Form.Item
+          name="remember"
+          valuePropName="checked"
+          style={{ marginBottom: 12 }}
+        >
+          <Checkbox>
+            <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+              Remember me on this device
+            </Typography.Text>
+          </Checkbox>
         </Form.Item>
 
         <Button type="primary" htmlType="submit" size="large" block>

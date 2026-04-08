@@ -1,5 +1,5 @@
-import { Button, Card, Checkbox, Form, Input, Typography } from 'antd'
-import { Link } from 'react-router-dom'
+import { Button, Card, Checkbox, Form, Input, Typography, message } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
 
 type RegisterFormValues = {
   fullName: string
@@ -10,6 +10,7 @@ type RegisterFormValues = {
 }
 
 export function RegisterPage() {
+  const navigate = useNavigate()
   const [form] = Form.useForm<RegisterFormValues>()
 
   return (
@@ -29,6 +30,8 @@ export function RegisterPage() {
         requiredMark={false}
         onFinish={(values) => {
           console.log('register.submit', values)
+          message.success('Account created successfully')
+          navigate('/login')
         }}
       >
         <Form.Item
