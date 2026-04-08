@@ -1,0 +1,40 @@
+.candidate-filters .candidate-filterRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.candidate-filters .candidate-filterLabel {
+  transition: color 160ms ease;
+}
+
+.candidate-filters .candidate-filterRow:hover .candidate-filterLabel {
+  color: var(--candidate-text);
+}
+
+.candidate-sider :where(.ant-checkbox-wrapper) {
+  margin-inline-start: 0;
+}
+
+/* Checkbox border + checked color via tokens */
+.candidate-sider :where(.ant-checkbox .ant-checkbox-inner) {
+  border-color: var(--candidate-border);
+}
+
+.candidate-sider :where(.ant-checkbox-checked .ant-checkbox-inner) {
+  background-color: var(--candidate-primary);
+  border-color: var(--candidate-primary);
+}
+
+/* InputNumber border + focus ring via tokens */
+.candidate-sider :where(.ant-input-number) {
+  border-color: color-mix(in srgb, var(--candidate-border) 70%, transparent);
+}
+
+.candidate-sider :where(.ant-input-number-focused),
+.candidate-sider :where(.ant-input-number):focus-within {
+  border-color: var(--candidate-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--candidate-primary) 18%, transparent);
+}
+

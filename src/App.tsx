@@ -1,8 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router'
 
 import { AuthLayout } from '@/layouts/AuthLayout'
+import { CandidateLayout } from '@/layouts/CandidateLayout.tsx'
 import { HrLayout } from '@/layouts/HrLayout'
 import { MainLayout } from '@/layouts/MainLayout'
+import { CandidateJobDetailsPage } from '@/pages/candidate/CandidateJobDetailsPage.tsx'
+import { CandidateJobsPage } from '@/pages/candidate/CandidateJobsPage.tsx'
 import { HrCandidateDetailsPage } from '@/pages/hr/HrCandidateDetailsPage'
 import { HrCandidatesPage } from '@/pages/hr/HrCandidatesPage'
 import { HrDashboardPage } from '@/pages/hr/HrDashboardPage'
@@ -37,6 +40,10 @@ const App = () => (
         <Route path="job/:id" element={<HrJobDetailsPage />} />
         <Route path="candidates" element={<HrCandidatesPage />} />
         <Route path="candidate/:id" element={<HrCandidateDetailsPage />} />
+      </Route>
+      <Route path="candidate" element={<CandidateLayout />}>
+        <Route path="jobs" element={<CandidateJobsPage />} />
+        <Route path="job/:id" element={<CandidateJobDetailsPage />} />
       </Route>
     </Routes>
   </BrowserRouter>
