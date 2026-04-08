@@ -35,15 +35,14 @@ export function TalentEmployersSection() {
               For Talent
             </Typography.Title>
 
-            <Space orientation="vertical" size={22} style={{ width: '100%' }}>
+            <Space orientation="vertical" size={22} style={{ width: '100%', gap: 0 }}>
               {talentPoints.map((p) => (
                 <div key={p.title} className="main-point">
-                  <div className="main-pointDot" aria-hidden />
                   <div>
-                    <Typography.Title level={4} style={{ marginTop: 0 }}>
+                    <Typography.Title level={4} style={{ marginTop: 8 }}>
                       {p.title}
                     </Typography.Title>
-                    <Typography.Paragraph className="main-muted" style={{ marginBottom: 0 }}>
+                    <Typography.Paragraph className="main-muted" style={{ margin: 0 }}>
                       {p.description}
                     </Typography.Paragraph>
                   </div>
@@ -101,7 +100,7 @@ export function TalentEmployersSection() {
                 ))}
               </Space>
 
-              <Button type="primary" size="large" block>
+              <Button type="primary" size="large" block style={{ marginTop: 18 }}>
                 Access Employer Portal
               </Button>
             </Card>

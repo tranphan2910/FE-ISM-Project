@@ -5,8 +5,7 @@ export function HeroSection() {
   return (
     <section className="main-hero">
       <div className="main-heroBg" aria-hidden />
-
-      <div className="main-container">
+      <div style={{width: '75%', margin: '0 auto'}}>
         <Row gutter={[48, 48]} align="middle">
           <Col xs={24} lg={14}>
             <Tag color="blue" className="main-heroBadge">
@@ -22,32 +21,18 @@ export function HeroSection() {
               at the intersection of innovation and editorial excellence.
             </Typography.Paragraph>
 
-            <Card className="main-heroSearch" variant="borderless">
-              <Space orientation="vertical" size={12} style={{ width: '100%' }}>
                 <Row gutter={[12, 12]}>
-                  <Col xs={24} md={12}>
-                    <Input
-                      size="large"
-                      prefix={<SearchOutlined />}
-                      placeholder="Role, skill, or keyword"
-                      allowClear
-                    />
-                  </Col>
-                  <Col xs={24} md={12}>
-                    <Input
-                      size="large"
-                      prefix={<EnvironmentOutlined />}
-                      placeholder="City or remote"
-                      allowClear
-                    />
-                  </Col>
-                </Row>
-
-                <Button type="primary" size="large" block>
+                  <Col md={8}>
+                  <Button type="primary" size="large" block>
                   Find My Future
                 </Button>
-              </Space>
-            </Card>
+                  </Col>
+                  <Col  md={8}>
+                  <Button type="default" size="large" block>
+                  Post a Job
+                </Button>
+                  </Col>
+                </Row>
           </Col>
 
           <Col xs={0} lg={10}>

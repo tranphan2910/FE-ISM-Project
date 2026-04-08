@@ -3,7 +3,7 @@ import { Button, Card, Space, Typography } from 'antd'
 export function CtaSection() {
   return (
     <section className="main-section main-cta">
-      <div className="main-container">
+      <div>
         <Card className="main-ctaCard" variant="borderless">
           <div className="main-ctaBg" aria-hidden />
           <div className="main-ctaInner">

@@ -1,4 +1,6 @@
-import { Button, Layout, Menu, Space, Typography } from 'antd'
+import { Button, Drawer, Layout, Menu, Space, Typography } from 'antd'
+import { MenuOutlined } from '@ant-design/icons'
+import { useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { appEnv } from '@/config/env'
 
@@ -12,9 +14,23 @@ const navItems: NavItem[] = [
 ]
 
 export function TopNavBar() {
+  const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
   const selectedKey =
     navItems.find((i) => location.pathname.startsWith(i.to) && i.to !== '/')?.key ?? undefined
+
+  const menuItems = useMemo(
+    () =>
+      navItems.map((i) => ({
+        key: i.key,
+        label: (
+          <Link to={i.to} className="main-navLink" onClick={() => setMobileOpen(false)}>
+            {i.label}
+          </Link>
+        ),
+      })),
+    [],
+  )
 
   return (
     <Layout.Header className="main-header">
@@ -27,18 +43,11 @@ export function TopNavBar() {
           <Menu
             mode="horizontal"
             selectedKeys={selectedKey ? [selectedKey] : []}
-            items={navItems.map((i) => ({
-              key: i.key,
-              label: (
-                <Link to={i.to} className="main-navLink">
-                  {i.label}
-                </Link>
-              ),
-            }))}
+            items={menuItems}
           />
         </div>
 
-        <Space size={12}>
+        <Space size={12} className="main-actionsDesktop">
           <Button type="text">
             <Link to="/login">Sign In</Link>
           </Button>
@@ -46,7 +55,35 @@ export function TopNavBar() {
             <Link to="/main/jobs">Post a Job</Link>
           </Button>
         </Space>
+
+        <Space size={8} className="main-actionsMobile">
+          <Button type="primary">
+            <Link to="/main/jobs" onClick={() => setMobileOpen(false)}>
+              Post a Job
+            </Link>
+          </Button>
+          <Button
+            aria-label="Open menu"
+            icon={<MenuOutlined />}
+            onClick={() => setMobileOpen(true)}
+          />
+        </Space>
       </div>
+
+      <Drawer
+        title={appEnv.appName}
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        placement="right"
+        size="default"
+      >
+        <Menu mode="inline" selectedKeys={selectedKey ? [selectedKey] : []} items={menuItems} />
+        <div style={{ marginTop: 16 }}>
+          <Button block type="default" onClick={() => setMobileOpen(false)}>
+            <Link to="/login">Sign In</Link>
+          </Button>
+        </div>
+      </Drawer>
     </Layout.Header>
   )
 }

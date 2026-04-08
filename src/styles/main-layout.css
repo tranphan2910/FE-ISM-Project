@@ -44,6 +44,14 @@
   justify-content: center;
 }
 
+.main-actionsDesktop {
+  display: none;
+}
+
+.main-actionsMobile {
+  display: flex;
+}
+
 .main-nav :where(.ant-menu) {
   border-bottom: 0;
   background: transparent;
@@ -119,6 +127,7 @@
   font-weight: 950;
   letter-spacing: -0.05em;
   line-height: 1.06;
+  font-size: 72px !important;
 }
 
 .main-heroAccent {
@@ -127,7 +136,7 @@
 }
 
 .main-heroSubtitle {
-  font-size: 18px;
+  font-size: 20px;
   max-width: 620px;
 }
 
@@ -139,7 +148,7 @@
 
 .main-heroMedia {
   position: relative;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1;
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18);
@@ -282,14 +291,6 @@
   gap: 16px;
 }
 
-.main-pointDot {
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  background: #fff;
-  box-shadow: 0 6px 18px rgba(0, 26, 67, 0.06);
-  flex: 0 0 auto;
-}
 
 .main-employers {
   border: 1px solid rgba(15, 23, 42, 0.08);
@@ -321,7 +322,7 @@
 
 /* CTA */
 .main-ctaCard {
-  border-radius: 28px;
+  border-radius: 0;
   overflow: hidden;
   background: #0b1220;
   color: #fff;
@@ -381,6 +382,79 @@
 @media (min-width: 768px) {
   .main-nav {
     display: flex;
+  }
+
+  .main-actionsDesktop {
+    display: flex;
+  }
+
+  .main-actionsMobile {
+    display: none;
+  }
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+  .main-headerInner {
+    padding: 0 16px;
+  }
+
+  .main-container {
+    padding: 0 16px;
+  }
+
+  .main-section {
+    padding: 72px 0;
+  }
+
+  .main-hero {
+    min-height: auto;
+    padding: 44px 0;
+  }
+}
+
+/* Mobile */
+@media (max-width: 575px) {
+  .main-header {
+    height: 72px;
+  }
+
+  .main-headerInner {
+    height: 72px;
+  }
+
+  .main-content {
+    padding-top: 72px;
+  }
+
+  .main-section {
+    padding: 56px 0;
+  }
+
+  .main-heroTitle {
+    font-size: 40px !important;
+    line-height: 1.1;
+  }
+
+  .main-heroSubtitle {
+    font-size: 16px;
+  }
+
+  .main-ctaInner {
+    padding: 36px 18px;
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1200px) {
+  .main-heroTitle {
+    font-size: 84px !important;
+    line-height: 1.03;
+  }
+
+  .main-heroSubtitle {
+    font-size: 22px;
+    max-width: 680px;
   }
 }
 

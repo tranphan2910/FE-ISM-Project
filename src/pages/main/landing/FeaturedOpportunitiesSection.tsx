@@ -86,30 +86,6 @@ export function FeaturedOpportunitiesSection() {
               </Col>
             </Row>
           </Col>
-
-          <Col xs={24}>
-            <Card className="main-card main-newsletter" variant="borderless">
-              <Row gutter={[24, 24]} align="middle">
-                <Col xs={24} md={18}>
-                  <Typography.Title level={3} style={{ marginTop: 0 }}>
-                    Newsletter for Architects
-                  </Typography.Title>
-                  <Typography.Paragraph className="main-muted">
-                    Get curated roles and market insights delivered to your inbox every Tuesday.
-                  </Typography.Paragraph>
-                  <Space.Compact style={{ width: '100%' }}>
-                    <Input placeholder="Your work email" type="email" />
-                    <Button type="primary">Join</Button>
-                  </Space.Compact>
-                </Col>
-                <Col xs={24} md={6}>
-                  <div className="main-newsletterIcon" aria-hidden>
-                    <MailOutlined />
-                  </div>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
         </Row>
       </div>
     </section>
