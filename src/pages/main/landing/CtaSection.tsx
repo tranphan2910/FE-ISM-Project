@@ -1,0 +1,29 @@
+import { Button, Card, Space, Typography } from 'antd'
+
+export function CtaSection() {
+  return (
+    <section className="main-section main-cta">
+      <div className="main-container">
+        <Card className="main-ctaCard" variant="borderless">
+          <div className="main-ctaBg" aria-hidden />
+          <div className="main-ctaInner">
+            <Typography.Title level={2} className="main-ctaTitle">
+              Ready to blueprint your next move?
+            </Typography.Title>
+            <Typography.Paragraph className="main-ctaText">
+              Join the premier network for architects of the digital age. Your future isn&apos;t a
+              destination—it's a structure you build.
+            </Typography.Paragraph>
+            <Space size={12} wrap className="main-ctaActions">
+              <Button size="large">Find Opportunities</Button>
+              <Button size="large" ghost type="primary">
+                Talk to a Consultant
+              </Button>
+            </Space>
+          </div>
+        </Card>
+      </div>
+    </section>
+  )
+}
+

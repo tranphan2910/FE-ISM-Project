@@ -1,8 +1,4 @@
 /* Auth layout */
-:root {
-  color-scheme: light;
-}
-
 .auth-shell {
   min-height: 100vh;
   display: flex;

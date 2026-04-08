@@ -1,0 +1,76 @@
+import { Button, Card, Col, Input, Row, Space, Tag, Typography } from 'antd'
+import { EnvironmentOutlined, SearchOutlined } from '@ant-design/icons'
+
+export function HeroSection() {
+  return (
+    <section className="main-hero">
+      <div className="main-heroBg" aria-hidden />
+
+      <div className="main-container">
+        <Row gutter={[48, 48]} align="middle">
+          <Col xs={24} lg={14}>
+            <Tag color="blue" className="main-heroBadge">
+              FUTURE-PROOF YOUR CAREER
+            </Tag>
+
+            <Typography.Title level={1} className="main-heroTitle">
+              Architect Your <br /> Career <span className="main-heroAccent">Future</span>
+            </Typography.Title>
+
+            <Typography.Paragraph className="main-heroSubtitle">
+              Where precision engineering meets professional growth. Discover curated opportunities
+              at the intersection of innovation and editorial excellence.
+            </Typography.Paragraph>
+
+            <Card className="main-heroSearch" variant="borderless">
+              <Space orientation="vertical" size={12} style={{ width: '100%' }}>
+                <Row gutter={[12, 12]}>
+                  <Col xs={24} md={12}>
+                    <Input
+                      size="large"
+                      prefix={<SearchOutlined />}
+                      placeholder="Role, skill, or keyword"
+                      allowClear
+                    />
+                  </Col>
+                  <Col xs={24} md={12}>
+                    <Input
+                      size="large"
+                      prefix={<EnvironmentOutlined />}
+                      placeholder="City or remote"
+                      allowClear
+                    />
+                  </Col>
+                </Row>
+
+                <Button type="primary" size="large" block>
+                  Find My Future
+                </Button>
+              </Space>
+            </Card>
+          </Col>
+
+          <Col xs={0} lg={10}>
+            <div className="main-heroMedia" aria-hidden>
+              <div className="main-heroMediaInner" />
+              <div className="main-heroMediaOverlay" />
+              <div className="main-heroMediaHud">
+                <Space size={10}>
+                  <div className="main-heroAvatars" aria-hidden>
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                  <Typography.Text className="main-heroHudText">
+                    Joined by 12,000+ architects
+                  </Typography.Text>
+                </Space>
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </div>
+    </section>
+  )
+}
+
