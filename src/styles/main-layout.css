@@ -101,7 +101,7 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: #fff;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.02), rgba(255, 255, 255, 1) 55%);
   padding: 56px 0;
 }
 
@@ -205,22 +205,35 @@
 
 /* Stats */
 .main-stats {
-  background: rgba(15, 23, 42, 0.03);
+  background: linear-gradient(180deg, #0b1220, #060a12);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.main-statCard :where(.ant-statistic-title) {
-  color: rgba(15, 23, 42, 0.66);
-  font-weight: 600;
+.main-stats :where(.ant-statistic-title) {
+  color: rgba(255, 255, 255, 0.72) !important;
+  font-weight: 650;
 }
 
-.main-statCard :where(.ant-statistic-content-value) {
-  color: #1677ff;
+.main-stats :where(.ant-statistic-content-value) {
+  color: rgba(255, 255, 255, 0.96) !important;
   font-weight: 950;
   letter-spacing: -0.04em;
   font-size: 40px;
 }
 
 /* Featured */
+.main-featured {
+  background: #ffffff;
+}
+
+/* Make Featured pop slightly on large screens */
+@media (min-width: 992px) {
+  .main-featured {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(15, 23, 42, 0.015));
+  }
+}
+
 .main-sectionHead {
   margin-bottom: 24px;
 }
@@ -283,7 +296,9 @@
 
 /* Talent & Employers */
 .main-talent {
-  background: rgba(15, 23, 42, 0.03);
+  background: linear-gradient(180deg, rgba(22, 119, 255, 0.15), rgba(255, 255, 255, 1) 55%);
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
 }
 
 .main-point {
@@ -311,6 +326,7 @@
   border-top: 1px solid rgba(15, 23, 42, 0.08);
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
   padding: 64px 0;
+  background: rgba(15, 23, 42, 0.015);
 }
 
 .main-company {
