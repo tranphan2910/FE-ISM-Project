@@ -203,3 +203,179 @@
   background: color-mix(in srgb, var(--candidate-border) 14%, var(--candidate-bg));
 }
 
+.candidate-jobDetails {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 48px;
+}
+
+.candidate-jobHeader {
+  margin-bottom: 48px;
+}
+
+.candidate-breadcrumb :where(.ant-breadcrumb-link a) {
+  color: var(--candidate-text-secondary);
+  font-weight: 650;
+  transition: color 160ms ease;
+}
+
+.candidate-breadcrumb :where(.ant-breadcrumb-link a:hover) {
+  color: var(--candidate-primary);
+}
+
+.candidate-breadcrumbLink {
+  color: var(--candidate-text-secondary);
+  font-weight: 650;
+}
+
+.candidate-breadcrumbActive {
+  color: var(--candidate-text);
+  font-weight: 650;
+}
+
+.candidate-breadcrumbSep {
+  color: color-mix(in srgb, var(--candidate-text-secondary) 65%, transparent);
+  padding-inline: 2px;
+}
+
+.candidate-jobH1.ant-typography {
+  font-weight: 950;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.candidate-moneyIcon {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--candidate-primary) 18%, transparent);
+  position: relative;
+}
+
+.candidate-moneyIcon::after {
+  content: '$';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--candidate-primary);
+}
+
+.candidate-jobPay {
+  color: var(--candidate-primary);
+  font-weight: 800;
+}
+
+.candidate-applyNowBtn.ant-btn {
+  height: 44px;
+  padding-inline: 28px;
+  border-radius: 10px;
+  font-weight: 850;
+  border: 0;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--candidate-primary) 85%, #000),
+    var(--candidate-primary)
+  );
+  box-shadow: 0 4px 14px 0 color-mix(in srgb, var(--candidate-primary) 40%, transparent);
+  transform: scale(0.98);
+  transition: transform 120ms ease, filter 120ms ease, opacity 120ms ease;
+}
+
+.candidate-applyNowBtn.ant-btn:hover {
+  filter: brightness(1.03);
+  transform: scale(1);
+}
+
+.candidate-applyNowBtn.ant-btn:active {
+  opacity: 0.88;
+  transform: scale(0.98);
+}
+
+.candidate-pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 650;
+  color: color-mix(in srgb, var(--candidate-text) 82%, transparent);
+  background: color-mix(in srgb, var(--candidate-primary) 10%, var(--candidate-bg));
+  border: 1px solid color-mix(in srgb, var(--candidate-primary) 16%, transparent);
+}
+
+.candidate-heroCard {
+  width: 100%;
+  height: 320px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--candidate-border) 14%, transparent);
+  box-shadow: 0 12px 40px color-mix(in srgb, #001a43 8%, transparent);
+  position: relative;
+}
+
+.candidate-heroCard :where(.ant-image),
+.candidate-heroCard :where(.ant-image-img) {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.candidate-heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+  opacity: 0.6;
+  transition: opacity 160ms ease;
+  pointer-events: none;
+}
+
+.candidate-heroCard:hover .candidate-heroOverlay {
+  opacity: 0.4;
+}
+
+.candidate-prose :where(p) {
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.candidate-detailFooter {
+  margin-top: 72px;
+  padding: 40px 0;
+  background: color-mix(in srgb, var(--candidate-border) 18%, var(--candidate-bg));
+  border-top: 1px solid color-mix(in srgb, var(--candidate-border) 40%, transparent);
+  border-radius: 14px;
+}
+
+.candidate-detailFooterInner {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-inline: 24px;
+}
+
+.candidate-detailFooterBrand {
+  display: inline-block;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--candidate-text) 60%, transparent);
+}
+
+.candidate-detailFooterCopy {
+  color: color-mix(in srgb, var(--candidate-text) 55%, transparent);
+  font-size: 12px;
+}
+
+.candidate-detailFooterLink {
+  color: color-mix(in srgb, var(--candidate-text) 55%, transparent);
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 160ms ease, opacity 160ms ease;
+  opacity: 0.92;
+}
+
+.candidate-detailFooterLink:hover {
+  color: var(--candidate-primary);
+  opacity: 1;
+}
+
