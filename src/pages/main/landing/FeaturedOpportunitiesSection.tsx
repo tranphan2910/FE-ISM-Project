@@ -1,5 +1,5 @@
-import { ArrowRightOutlined, MailOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Input, Row, Space, Tag, Typography } from 'antd'
+import { ArrowRightOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Row, Space, Tag, Typography } from 'antd'
 
 export function FeaturedOpportunitiesSection() {
   return (

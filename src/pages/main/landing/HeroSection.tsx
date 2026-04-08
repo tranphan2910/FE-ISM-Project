@@ -1,5 +1,4 @@
-import { Button, Card, Col, Input, Row, Space, Tag, Typography } from 'antd'
-import { EnvironmentOutlined, SearchOutlined } from '@ant-design/icons'
+import { Button, Col, Row, Space, Tag, Typography } from 'antd'
 
 export function HeroSection() {
   return (
@@ -13,7 +12,7 @@ export function HeroSection() {
             </Tag>
 
             <Typography.Title level={1} className="main-heroTitle">
-              Architect Your <br /> Career <span className="main-heroAccent">Future</span>
+              Architect Your <br /> <span className="main-heroAccent">Career Future</span>
             </Typography.Title>
 
             <Typography.Paragraph className="main-heroSubtitle">
