@@ -38,3 +38,168 @@
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--candidate-primary) 18%, transparent);
 }
 
+.candidate-sider :where(.candidate-tagBtn.ant-btn) {
+  height: 26px;
+  padding-inline: 10px;
+  font-size: 11px;
+  font-weight: 650;
+  border-radius: 10px;
+  color: var(--candidate-text-secondary);
+  background: color-mix(in srgb, var(--candidate-bg) 94%, var(--candidate-border));
+  border-color: color-mix(in srgb, var(--candidate-border) 70%, transparent);
+}
+
+.candidate-sider :where(.candidate-tagBtn.ant-btn):hover {
+  color: var(--candidate-primary);
+  border-color: color-mix(in srgb, var(--candidate-primary) 35%, transparent);
+  background: color-mix(in srgb, var(--candidate-primary) 12%, var(--candidate-bg));
+}
+
+.candidate-sider :where(.candidate-tagBtn.ant-btn.ant-btn-primary) {
+  color: #fff;
+  background: var(--candidate-primary);
+  border-color: var(--candidate-primary);
+}
+
+.candidate-jobsMain {
+  background: var(--candidate-bg-layout, #fcfcfc);
+}
+
+.candidate-jobsContainer {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 48px;
+}
+
+.candidate-jobCard {
+  background: var(--candidate-bg);
+  border: 1px solid color-mix(in srgb, var(--candidate-border) 45%, transparent);
+  border-radius: 14px;
+  padding: 32px;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.candidate-jobCard:hover {
+  border-color: color-mix(in srgb, var(--candidate-primary) 30%, transparent);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--candidate-text) 10%, transparent);
+}
+
+.candidate-jobLogoBox {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--candidate-border) 16%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.candidate-jobLogo {
+  filter: grayscale(1);
+  opacity: 0.82;
+  transition: filter 160ms ease, opacity 160ms ease;
+}
+
+.candidate-jobCard:hover .candidate-jobLogo {
+  filter: grayscale(0);
+  opacity: 0.95;
+}
+
+.candidate-jobTitleLink {
+  text-decoration: none;
+}
+
+.candidate-jobTitle {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--candidate-text);
+  margin-bottom: 6px;
+  transition: color 160ms ease;
+}
+
+.candidate-jobCard:hover .candidate-jobTitle {
+  color: var(--candidate-primary);
+}
+
+.candidate-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--candidate-border) 100%, transparent);
+}
+
+.candidate-jobSalary {
+  color: var(--candidate-primary);
+  font-weight: 700;
+}
+
+.candidate-jobTag {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--candidate-text) 80%, transparent);
+  background: color-mix(in srgb, var(--candidate-bg) 94%, var(--candidate-border));
+  border: 1px solid color-mix(in srgb, var(--candidate-border) 55%, transparent);
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.candidate-applyBtn.ant-btn {
+  height: 36px;
+  padding-inline: 18px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.candidate-paginationBar {
+  margin-top: 48px;
+  padding-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--candidate-border) 45%, transparent);
+}
+
+.candidate-pagination :where(.ant-pagination-item),
+.candidate-pagination :where(.ant-pagination-prev),
+.candidate-pagination :where(.ant-pagination-next) {
+  min-width: 40px;
+  height: 40px;
+  line-height: 38px;
+  border-radius: 10px;
+  border-color: color-mix(in srgb, var(--candidate-border) 65%, transparent);
+  background: var(--candidate-bg);
+}
+
+.candidate-pagination :where(.ant-pagination-item-active) {
+  background: var(--candidate-primary);
+  border-color: var(--candidate-primary);
+}
+
+.candidate-pagination :where(.ant-pagination-item-active a) {
+  color: #fff;
+  font-weight: 800;
+}
+
+.candidate-pagination :where(.ant-pagination-item a) {
+  color: var(--candidate-text);
+}
+
+.candidate-pagination :where(.ant-pagination-prev button),
+.candidate-pagination :where(.ant-pagination-next button) {
+  color: var(--candidate-text);
+}
+
+.candidate-pagination :where(.ant-pagination-item):hover {
+  background: color-mix(in srgb, var(--candidate-border) 14%, var(--candidate-bg));
+}
+
+.candidate-pagination :where(.ant-pagination-prev:hover),
+.candidate-pagination :where(.ant-pagination-next:hover) {
+  background: color-mix(in srgb, var(--candidate-border) 14%, var(--candidate-bg));
+}
+

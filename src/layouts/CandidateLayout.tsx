@@ -19,6 +19,7 @@ export function CandidateLayout() {
     ['--candidate-text-tertiary' as any]: token.colorTextTertiary,
     ['--candidate-border' as any]: token.colorBorderSecondary,
     ['--candidate-bg' as any]: token.colorBgContainer,
+    ['--candidate-bg-layout' as any]: token.colorBgLayout,
   } satisfies CSSProperties
 
   return (

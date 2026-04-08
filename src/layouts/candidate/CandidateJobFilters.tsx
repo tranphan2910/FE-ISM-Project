@@ -1,9 +1,10 @@
-import { Checkbox, Divider, Flex, InputNumber, Typography, theme } from 'antd'
+import { Button, Checkbox, Divider, Flex, InputNumber, Space, Typography, theme } from 'antd'
 import { useMemo, useState } from 'react'
 
 const { Text, Title } = Typography
 
 type JobTypeKey = 'fullTime' | 'contract' | 'remote'
+type PopularTagKey = 'remoteFriendly' | 'highGrowth' | 'react' | 'typescript'
 
 export function CandidateJobFilters() {
   const { token } = theme.useToken()
@@ -15,6 +16,12 @@ export function CandidateJobFilters() {
   })
   const [salaryMin, setSalaryMin] = useState<number | null>(null)
   const [salaryMax, setSalaryMax] = useState<number | null>(null)
+  const [popularTags, setPopularTags] = useState<Record<PopularTagKey, boolean>>({
+    remoteFriendly: false,
+    highGrowth: false,
+    react: false,
+    typescript: false,
+  })
 
   const items = useMemo(
     () =>
@@ -98,6 +105,60 @@ export function CandidateJobFilters() {
             controls={false}
           />
         </Flex>
+      </div>
+
+      <Divider style={{ margin: 0, borderColor: token.colorBorderSecondary }} />
+
+      <div>
+        <Title
+          level={5}
+          style={{
+            margin: 0,
+            fontSize: 11,
+            fontWeight: 800,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            color: token.colorTextTertiary,
+          }}
+        >
+          Popular Tags
+        </Title>
+        <div style={{ height: 12 }} />
+
+        <Space size={[8, 8]} wrap>
+          <Button
+            size="small"
+            className="candidate-tagBtn"
+            type={popularTags.remoteFriendly ? 'primary' : 'default'}
+            onClick={() => setPopularTags((p) => ({ ...p, remoteFriendly: !p.remoteFriendly }))}
+          >
+            Remote Friendly
+          </Button>
+          <Button
+            size="small"
+            className="candidate-tagBtn"
+            type={popularTags.highGrowth ? 'primary' : 'default'}
+            onClick={() => setPopularTags((p) => ({ ...p, highGrowth: !p.highGrowth }))}
+          >
+            High Growth
+          </Button>
+          <Button
+            size="small"
+            className="candidate-tagBtn"
+            type={popularTags.react ? 'primary' : 'default'}
+            onClick={() => setPopularTags((p) => ({ ...p, react: !p.react }))}
+          >
+            React
+          </Button>
+          <Button
+            size="small"
+            className="candidate-tagBtn"
+            type={popularTags.typescript ? 'primary' : 'default'}
+            onClick={() => setPopularTags((p) => ({ ...p, typescript: !p.typescript }))}
+          >
+            TypeScript
+          </Button>
+        </Space>
       </div>
     </div>
   )
