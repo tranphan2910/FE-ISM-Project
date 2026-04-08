@@ -379,3 +379,8 @@
   opacity: 1;
 }
 
+/* Apply job modal (portaled; structural z-index only — colors come from antd tokens in component) */
+.candidate-applyModalWrap.ant-modal-wrap {
+  z-index: 1100;
+}
+

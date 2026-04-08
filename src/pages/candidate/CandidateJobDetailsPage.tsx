@@ -1,12 +1,18 @@
 import { BankOutlined, EnvironmentOutlined, LeftOutlined } from '@ant-design/icons'
 import { Breadcrumb, Button, Col, Flex, Image, Row, Typography, theme } from 'antd'
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
+import { JobApplyModal } from '@/components/candidate/JobApplyModal.tsx'
+
 const { Title, Text, Paragraph } = Typography
+
+const JOB_TITLE = 'Senior Product Designer'
 
 export function CandidateJobDetailsPage() {
   const { token } = theme.useToken()
   const { id } = useParams()
+  const [applyOpen, setApplyOpen] = useState(false)
 
   return (
     <div className="candidate-jobDetails">
@@ -20,12 +26,12 @@ export function CandidateJobDetailsPage() {
                 items={[
                   { title: <Link to="/candidate/jobs">Jobs</Link> },
                   { title: <span className="candidate-breadcrumbLink">Vertex Systems</span> },
-                  { title: <span className="candidate-breadcrumbActive">Senior Product Designer</span> },
+                  { title: <span className="candidate-breadcrumbActive">{JOB_TITLE}</span> },
                 ]}
               />
 
               <Title className="candidate-jobH1" level={1} style={{ marginTop: 8, marginBottom: 10 }}>
-                Senior Product Designer
+                {JOB_TITLE}
               </Title>
 
               <Flex wrap gap={18} align="center">
@@ -50,7 +56,7 @@ export function CandidateJobDetailsPage() {
               <Link to="/candidate/jobs">
                 <Button icon={<LeftOutlined />}>Back</Button>
               </Link>
-              <Button type="primary" className="candidate-applyNowBtn">
+              <Button type="primary" className="candidate-applyNowBtn" onClick={() => setApplyOpen(true)}>
                 Apply Now
               </Button>
             </Flex>
@@ -103,6 +109,13 @@ export function CandidateJobDetailsPage() {
           <aside style={{ minHeight: 1 }} />
         </Col>
       </Row>
+
+      <JobApplyModal
+        open={applyOpen}
+        onClose={() => setApplyOpen(false)}
+        jobTitle={JOB_TITLE}
+        subtitle="Complete your application for the Design Systems team."
+      />
 
       <footer className="candidate-detailFooter">
         <div className="candidate-detailFooterInner">
