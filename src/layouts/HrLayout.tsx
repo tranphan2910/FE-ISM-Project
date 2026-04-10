@@ -23,7 +23,11 @@ function matchNavKey(pathname: string): NavKey {
   if (pathname.includes('/hr/candidates') || pathname.includes('/hr/candidate/')) {
     return 'candidates'
   }
-  if (pathname.includes('/hr/jobs') || pathname.includes('/hr/job/')) {
+  if (
+    pathname.includes('/hr/my-job') ||
+    pathname.includes('/hr/jobs') ||
+    pathname.includes('/hr/job/')
+  ) {
     return 'jobs'
   }
   if (pathname.includes('/hr/dashboard')) {
@@ -56,7 +60,7 @@ export function HrLayout() {
       {
         key: 'jobs',
         icon: <ProjectOutlined />,
-        label: <Link to="/hr/jobs">My Jobs</Link>,
+        label: <Link to="/hr/my-job">My Jobs</Link>,
       },
       {
         key: 'candidates',
@@ -176,7 +180,7 @@ export function HrLayout() {
           </div>
 
           <div style={{ paddingTop: token.paddingMD, paddingBottom: token.paddingXS }}>
-            <Link to="/hr/jobs" style={{ display: 'block' }}>
+            <Link to="/hr/my-job" style={{ display: 'block' }}>
               <Button type="primary" block icon={<PlusOutlined />} style={postBtnStyle}>
                 Post New Job
               </Button>

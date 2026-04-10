@@ -11,6 +11,7 @@ import { HrCandidatesPage } from '@/pages/hr/HrCandidatesPage'
 import { HrDashboardPage } from '@/pages/hr/HrDashboardPage'
 import { HrJobDetailsPage } from '@/pages/hr/HrJobDetailsPage'
 import { HrJobsPage } from '@/pages/hr/HrJobsPage'
+import { HrMyJobPage } from '@/pages/hr/HrMyJobPage'
 import { JobDetailsPage } from '@/pages/main/JobDetailsPage'
 import { JobStatusPage } from '@/pages/main/JobStatusPage'
 import { LandingPage } from '@/pages/main/LandingPage'
@@ -36,6 +37,7 @@ const App = () => (
       </Route>
       <Route path="hr" element={<HrLayout />}>
         <Route path="dashboard" element={<HrDashboardPage />} />
+        <Route path="my-job" element={<HrMyJobPage />} />
         <Route path="jobs" element={<HrJobsPage />} />
         <Route path="job/:id" element={<HrJobDetailsPage />} />
         <Route path="candidates" element={<HrCandidatesPage />} />
