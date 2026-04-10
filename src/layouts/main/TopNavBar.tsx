@@ -7,10 +7,8 @@ import { appEnv } from '@/config/env'
 type NavItem = { key: string; label: string; to: string }
 
 const navItems: NavItem[] = [
-  { key: 'jobs', label: 'Find Jobs', to: '/main/jobs' },
-  { key: 'categories', label: 'Categories', to: '/' },
-  { key: 'employers', label: 'For Employers', to: '/' },
-  { key: 'pricing', label: 'Pricing', to: '/' },
+  { key: 'home', label: 'Home', to: '/' },
+  { key: 'jobs', label: 'Find Jobs', to: '/candidate/jobs' }
 ]
 
 export function TopNavBar() {
@@ -63,9 +61,9 @@ export function TopNavBar() {
       <div
         style={{
           height: headerHeight,
-          maxWidth: 1120,
+          width: '100%',
           margin: '0 auto',
-          padding: '0 24px',
+          padding: '0 12rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -86,7 +84,13 @@ export function TopNavBar() {
         </Link>
 
         {isDesktop ? (
-          <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          <div
+            style={{
+              flex: 1,
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
             <ConfigProvider
               theme={{
                 components: {
@@ -105,11 +109,14 @@ export function TopNavBar() {
             >
               <Menu
                 mode="horizontal"
+                disabledOverflow
                 selectedKeys={selectedKey ? [selectedKey] : []}
                 items={menuItems}
                 style={{
                   borderBottom: 0,
                   background: 'transparent',
+                  flex: '0 1 auto',
+                  minWidth: 'max-content',
                 }}
               />
             </ConfigProvider>
