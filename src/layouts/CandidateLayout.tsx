@@ -1,6 +1,7 @@
-import { Layout, theme } from 'antd'
+import { AppstoreOutlined, UnorderedListOutlined, UserOutlined } from '@ant-design/icons'
+import { Flex, Layout, Menu, theme } from 'antd'
 import type { CSSProperties } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { TopNavBar } from '@/layouts/main/TopNavBar'
 import { CandidateJobFilters } from '@/layouts/candidate/CandidateJobFilters'
@@ -10,6 +11,17 @@ const SIDEBAR_WIDTH = 256
 
 export function CandidateLayout() {
   const { token } = theme.useToken()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const showJobFilters =
+    location.pathname !== '/candidate/applications' && location.pathname !== '/candidate/profile'
+
+  const candidateMenuKey =
+    location.pathname === '/candidate/applications'
+      ? 'applications'
+      : location.pathname === '/candidate/profile'
+        ? 'profile'
+        : 'jobs'
 
   const cssVars = {
     // Used by `candidate-layout.css` for hover/focus styling.
@@ -41,7 +53,34 @@ export function CandidateLayout() {
           padding: 24,
         }}
       >
-        <CandidateJobFilters />
+        <Flex vertical gap={16} style={{ marginBottom: 8 }}>
+          <Menu
+            mode="inline"
+            selectedKeys={[candidateMenuKey]}
+            style={{ borderInlineEnd: 'none', background: 'transparent' }}
+            items={[
+              {
+                key: 'jobs',
+                icon: <UnorderedListOutlined />,
+                label: 'Browse jobs',
+                onClick: () => navigate('/candidate/jobs'),
+              },
+              {
+                key: 'applications',
+                icon: <AppstoreOutlined />,
+                label: 'My applications',
+                onClick: () => navigate('/candidate/applications'),
+              },
+              {
+                key: 'profile',
+                icon: <UserOutlined />,
+                label: 'Profile',
+                onClick: () => navigate('/candidate/profile'),
+              },
+            ]}
+          />
+        </Flex>
+        {showJobFilters ? <CandidateJobFilters /> : null}
       </Layout.Sider>
 
       <Layout.Content

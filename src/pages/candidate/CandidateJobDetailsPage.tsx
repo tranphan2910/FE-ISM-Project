@@ -1,18 +1,35 @@
 import { BankOutlined, EnvironmentOutlined, LeftOutlined } from '@ant-design/icons'
-import { Breadcrumb, Button, Col, Flex, Image, Row, Typography, theme } from 'antd'
-import { useState } from 'react'
+import { Breadcrumb, Button, Col, Flex, Image, Result, Row, Typography, theme } from 'antd'
+import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import { JobApplyModal } from '@/components/candidate/JobApplyModal.tsx'
+import { getCandidateJobById } from '@/data/candidateJobs'
+import { addJobApplication, fileToDataUrl } from '@/lib/candidateApplicationsStorage'
 
 const { Title, Text, Paragraph } = Typography
-
-const JOB_TITLE = 'Senior Product Designer'
 
 export function CandidateJobDetailsPage() {
   const { token } = theme.useToken()
   const { id } = useParams()
   const [applyOpen, setApplyOpen] = useState(false)
+
+  const job = useMemo(() => getCandidateJobById(id), [id])
+
+  if (!job) {
+    return (
+      <Result
+        status="404"
+        title="Job not found"
+        subTitle="This listing is unavailable or the link is incorrect."
+        extra={
+          <Link to="/candidate/jobs">
+            <Button type="primary">Back to jobs</Button>
+          </Link>
+        }
+      />
+    )
+  }
 
   return (
     <div className="candidate-jobDetails">
@@ -25,27 +42,27 @@ export function CandidateJobDetailsPage() {
                 separator={<span className="candidate-breadcrumbSep">›</span>}
                 items={[
                   { title: <Link to="/candidate/jobs">Jobs</Link> },
-                  { title: <span className="candidate-breadcrumbLink">Vertex Systems</span> },
-                  { title: <span className="candidate-breadcrumbActive">{JOB_TITLE}</span> },
+                  { title: <span className="candidate-breadcrumbLink">{job.company}</span> },
+                  { title: <span className="candidate-breadcrumbActive">{job.title}</span> },
                 ]}
               />
 
               <Title className="candidate-jobH1" level={1} style={{ marginTop: 8, marginBottom: 10 }}>
-                {JOB_TITLE}
+                {job.title}
               </Title>
 
               <Flex wrap gap={18} align="center">
                 <Flex gap={8} align="center">
                   <BankOutlined style={{ fontSize: 16, color: token.colorTextSecondary }} />
-                  <Text style={{ fontWeight: 700, color: token.colorText }}>Vertex Systems</Text>
+                  <Text style={{ fontWeight: 700, color: token.colorText }}>{job.company}</Text>
                 </Flex>
                 <Flex gap={8} align="center">
                   <EnvironmentOutlined style={{ fontSize: 16, color: token.colorTextSecondary }} />
-                  <Text style={{ color: token.colorTextSecondary }}>London, UK</Text>
+                  <Text style={{ color: token.colorTextSecondary }}>{job.location}</Text>
                 </Flex>
                 <Flex gap={8} align="center">
                   <span className="candidate-moneyIcon" />
-                  <Text className="candidate-jobPay">$120k - $160k</Text>
+                  <Text className="candidate-jobPay">{job.salary}</Text>
                 </Flex>
               </Flex>
 
@@ -63,7 +80,7 @@ export function CandidateJobDetailsPage() {
           </Flex>
 
           <Flex wrap gap={8} className="candidate-jobPills">
-            {['Remote Friendly', 'High Growth', 'Figma', 'Enterprise AI', 'Full-time'].map((t) => (
+            {job.tags.map((t) => (
               <span key={t} className="candidate-pill">
                 {t}
               </span>
@@ -113,8 +130,20 @@ export function CandidateJobDetailsPage() {
       <JobApplyModal
         open={applyOpen}
         onClose={() => setApplyOpen(false)}
-        jobTitle={JOB_TITLE}
+        jobTitle={job.title}
         subtitle="Complete your application for the Design Systems team."
+        onSubmit={async (file) => {
+          const resumeDataUrl = await fileToDataUrl(file)
+          addJobApplication({
+            jobId: job.id,
+            jobTitle: job.title,
+            company: job.company,
+            logoUrl: job.logoUrl,
+            status: 'applied',
+            resumeFileName: file.name,
+            resumeDataUrl,
+          })
+        }}
       />
 
       <footer className="candidate-detailFooter">

@@ -4,8 +4,10 @@ import { AuthLayout } from '@/layouts/AuthLayout'
 import { CandidateLayout } from '@/layouts/CandidateLayout.tsx'
 import { HrLayout } from '@/layouts/HrLayout'
 import { MainLayout } from '@/layouts/MainLayout'
+import { CandidateApplicationsPage } from '@/pages/candidate/CandidateApplicationsPage.tsx'
 import { CandidateJobDetailsPage } from '@/pages/candidate/CandidateJobDetailsPage.tsx'
 import { CandidateJobsPage } from '@/pages/candidate/CandidateJobsPage.tsx'
+import { CandidateProfilePage } from '@/pages/candidate/CandidateProfilePage.tsx'
 import { HrCandidateDetailsPage } from '@/pages/hr/HrCandidateDetailsPage'
 import { HrCandidatesPage } from '@/pages/hr/HrCandidatesPage'
 import { HrDashboardPage } from '@/pages/hr/HrDashboardPage'
@@ -45,6 +47,8 @@ const App = () => (
       </Route>
       <Route path="candidate" element={<CandidateLayout />}>
         <Route path="jobs" element={<CandidateJobsPage />} />
+        <Route path="applications" element={<CandidateApplicationsPage />} />
+        <Route path="profile" element={<CandidateProfilePage />} />
         <Route path="job/:id" element={<CandidateJobDetailsPage />} />
       </Route>
     </Routes>
