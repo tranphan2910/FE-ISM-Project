@@ -1,4 +1,4 @@
-import { Button, Drawer, Layout, Menu, Space, Typography } from 'antd'
+import { Button, ConfigProvider, Drawer, Grid, Layout, Menu, Space, theme, Typography } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
 import { useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
@@ -14,6 +14,8 @@ const navItems: NavItem[] = [
 ]
 
 export function TopNavBar() {
+  const { token } = theme.useToken()
+  const screens = Grid.useBreakpoint()
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
   const selectedKey =
@@ -24,50 +26,121 @@ export function TopNavBar() {
       navItems.map((i) => ({
         key: i.key,
         label: (
-          <Link to={i.to} className="main-navLink" onClick={() => setMobileOpen(false)}>
+          <Link
+            to={i.to}
+            onClick={() => setMobileOpen(false)}
+            style={{
+              color: token.colorTextSecondary,
+              fontWeight: 650,
+              letterSpacing: '-0.01em',
+            }}
+          >
             {i.label}
           </Link>
         ),
       })),
-    [],
+    [token.colorTextSecondary],
   )
 
+  const headerHeight = 80
+  const isDesktop = !!screens.lg
+
   return (
-    <Layout.Header className="main-header">
-      <div className="main-headerInner">
-        <Link to="/" className="main-brand">
-          <Typography.Text className="main-brandText">{appEnv.appName}</Typography.Text>
+    <Layout.Header
+      style={{
+        position: 'fixed',
+        top: 0,
+        zIndex: 50,
+        width: '100%',
+        height: headerHeight,
+        paddingInline: 0,
+        background: `color-mix(in srgb, ${token.colorBgContainer} 85%, transparent)`,
+        backdropFilter: 'blur(18px)',
+        boxShadow: `0 12px 40px color-mix(in srgb, ${token.colorTextBase} 6%, transparent)`,
+        borderBottom: `1px solid color-mix(in srgb, ${token.colorBorderSecondary} 55%, transparent)`,
+      }}
+    >
+      <div
+        style={{
+          height: headerHeight,
+          maxWidth: 1120,
+          margin: '0 auto',
+          padding: '0 24px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 16,
+        }}
+      >
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <Typography.Text
+            style={{
+              fontSize: 18,
+              fontWeight: 900,
+              letterSpacing: '-0.03em',
+              color: token.colorText,
+            }}
+          >
+            {appEnv.appName}
+          </Typography.Text>
         </Link>
 
-        <div className="main-nav">
-          <Menu
-            mode="horizontal"
-            selectedKeys={selectedKey ? [selectedKey] : []}
-            items={menuItems}
-          />
-        </div>
+        {isDesktop ? (
+          <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+            <ConfigProvider
+              theme={{
+                components: {
+                  Menu: {
+                    horizontalItemSelectedColor: token.colorPrimary,
+                    horizontalItemSelectedBg: 'transparent',
+                    horizontalItemHoverColor: token.colorText,
+                    horizontalItemHoverBg: 'transparent',
+                    itemBg: 'transparent',
+                    itemSelectedBg: 'transparent',
+                    itemHoverBg: 'transparent',
+                    activeBarBorderWidth: 0,
+                  },
+                },
+              }}
+            >
+              <Menu
+                mode="horizontal"
+                selectedKeys={selectedKey ? [selectedKey] : []}
+                items={menuItems}
+                style={{
+                  borderBottom: 0,
+                  background: 'transparent',
+                }}
+              />
+            </ConfigProvider>
+          </div>
+        ) : (
+          <div style={{ flex: 1 }} />
+        )}
 
-        <Space size={12} className="main-actionsDesktop">
-          <Button type="text">
-            <Link to="/login">Sign In</Link>
-          </Button>
-          <Button type="primary">
-            <Link to="/main/jobs">Post a Job</Link>
-          </Button>
-        </Space>
-
-        <Space size={8} className="main-actionsMobile">
-          <Button type="primary">
-            <Link to="/main/jobs" onClick={() => setMobileOpen(false)}>
-              Post a Job
+        {isDesktop ? (
+          <Space size={12}>
+            <Link to="/login" style={{ textDecoration: 'none' }}>
+              <Button type="text">Sign In</Button>
             </Link>
-          </Button>
-          <Button
-            aria-label="Open menu"
-            icon={<MenuOutlined />}
-            onClick={() => setMobileOpen(true)}
-          />
-        </Space>
+            <Link to="/main/jobs" style={{ textDecoration: 'none' }}>
+              <Button type="primary">Post a Job</Button>
+            </Link>
+          </Space>
+        ) : (
+          <Space size={8}>
+            <Link to="/main/jobs" style={{ textDecoration: 'none' }}>
+              <Button type="primary" onClick={() => setMobileOpen(false)}>
+                Post a Job
+              </Button>
+            </Link>
+            <Button
+              aria-label="Open menu"
+              icon={<MenuOutlined />}
+              onClick={() => setMobileOpen(true)}
+            />
+          </Space>
+        )}
       </div>
 
       <Drawer
@@ -77,11 +150,28 @@ export function TopNavBar() {
         placement="right"
         size="default"
       >
-        <Menu mode="inline" selectedKeys={selectedKey ? [selectedKey] : []} items={menuItems} />
+        <ConfigProvider
+          theme={{
+            components: {
+              Menu: {
+                itemSelectedBg: token.colorPrimaryBg,
+                itemSelectedColor: token.colorPrimary,
+                itemHoverBg: token.colorFillTertiary,
+                itemHoverColor: token.colorText,
+                itemColor: token.colorTextSecondary,
+                itemBorderRadius: token.borderRadiusLG,
+              },
+            },
+          }}
+        >
+          <Menu mode="inline" selectedKeys={selectedKey ? [selectedKey] : []} items={menuItems} />
+        </ConfigProvider>
         <div style={{ marginTop: 16 }}>
-          <Button block type="default" onClick={() => setMobileOpen(false)}>
-            <Link to="/login">Sign In</Link>
-          </Button>
+          <Link to="/login" style={{ textDecoration: 'none' }}>
+            <Button block type="default" onClick={() => setMobileOpen(false)}>
+              Sign In
+            </Button>
+          </Link>
         </div>
       </Drawer>
     </Layout.Header>

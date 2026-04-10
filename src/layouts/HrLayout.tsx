@@ -41,15 +41,6 @@ export function HrLayout() {
   const location = useLocation()
   const selectedKey = matchNavKey(location.pathname)
 
-  const cssVars = {
-    ['--hr-primary' as string]: token.colorPrimary,
-    ['--hr-primary-bg' as string]: token.colorPrimaryBg,
-    ['--hr-primary-hover' as string]: token.colorPrimaryHover,
-    ['--hr-text' as string]: token.colorText,
-    ['--hr-text-secondary' as string]: token.colorTextSecondary,
-    ['--hr-border' as string]: token.colorBorderSecondary,
-  } satisfies CSSProperties
-
   const menuItems = useMemo(
     () => [
       {
@@ -132,10 +123,10 @@ export function HrLayout() {
   }
 
   return (
-    <Layout className="main-shell" style={cssVars}>
+    <Layout style={{ minHeight: '100vh', background: token.colorBgLayout }}>
       <TopNavBar />
 
-      <Layout.Sider width={SIDEBAR_WIDTH} className="hr-sider" style={siderStyle} theme="light">
+      <Layout.Sider width={SIDEBAR_WIDTH} style={siderStyle} theme="light">
         <Flex vertical style={{ minHeight: '100%' }}>
           <div style={{ marginBottom: token.marginLG, padding: `${token.paddingXS}px ${token.paddingSM}px` }}>
             <Flex align="center" gap={token.marginSM}>
@@ -197,7 +188,7 @@ export function HrLayout() {
           background: token.colorBgLayout,
         }}
       >
-        <Layout.Content className="main-content" style={{ paddingTop: 0 }}>
+        <Layout.Content style={{ paddingTop: 0 }}>
           <div style={{ padding: token.paddingLG }}>
             <Outlet />
           </div>
