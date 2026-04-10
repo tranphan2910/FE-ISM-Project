@@ -1,5 +1,6 @@
 import { CheckCircleFilled } from '@ant-design/icons'
 import { Button, Card, Col, Progress, Row, Space, Tag, Typography } from 'antd'
+import { useNavigate } from 'react-router'
 
 const talentPoints = [
   {
@@ -26,6 +27,7 @@ const employerChecks = [
 ]
 
 export function TalentEmployersSection() {
+  const navigate = useNavigate()
   return (
     <section className="main-section main-talent">
       <div className="main-container">
@@ -49,10 +51,6 @@ export function TalentEmployersSection() {
                 </div>
               ))}
             </Space>
-
-            <Button type="link" className="main-linkBtn" style={{ marginTop: 18, paddingLeft: 0 }}>
-              Build Your Profile
-            </Button>
           </Col>
 
           <Col xs={24} lg={12}>
@@ -100,7 +98,7 @@ export function TalentEmployersSection() {
                 ))}
               </Space>
 
-              <Button type="primary" size="large" block style={{ marginTop: 18 }}>
+              <Button type="primary" size="large" block style={{ marginTop: 18 }} onClick={() => navigate('/candidate/jobs')}>
                 Access Employer Portal
               </Button>
             </Card>

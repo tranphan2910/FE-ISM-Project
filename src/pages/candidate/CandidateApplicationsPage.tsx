@@ -170,7 +170,7 @@ export function CandidateApplicationsPage() {
         <Flex justify="space-between" align="flex-end" wrap gap={16}>
           <div>
             <Title level={2} style={{ margin: 0, marginBottom: 8, fontWeight: 900, letterSpacing: '-0.02em' }}>
-              My Applications
+              Your Applications
             </Title>
             <Text style={{ color: token.colorTextSecondary, fontWeight: 600 }}>
               Track and manage your ongoing career journey.

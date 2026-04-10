@@ -1,6 +1,8 @@
 import { Button, Col, Row, Space, Tag, Typography } from 'antd'
+import { useNavigate } from 'react-router'
 
 export function HeroSection() {
+  const navigate = useNavigate()
   return (
     <section className="main-hero">
       <div className="main-heroBg" aria-hidden />
@@ -22,12 +24,12 @@ export function HeroSection() {
 
                 <Row gutter={[12, 12]}>
                   <Col md={8}>
-                  <Button type="primary" size="large" block>
+                  <Button type="primary" size="large" block onClick={() => navigate('/candidate/jobs')}>
                   Find My Future
                 </Button>
                   </Col>
                   <Col  md={8}>
-                  <Button type="default" size="large" block>
+                  <Button type="default" size="large" block onClick={() => navigate('/hr/jobs')}>
                   Post a Job
                 </Button>
                   </Col>

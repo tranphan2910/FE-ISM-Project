@@ -1,7 +1,9 @@
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Row, Space, Tag, Typography } from 'antd'
+import { useNavigate } from 'react-router'
 
-export function FeaturedOpportunitiesSection() {
+export function FeaturedOpportunitiesSection() {  
+  const navigate = useNavigate()
   return (
     <section className="main-section main-featured">
       <div className="main-container">
@@ -15,7 +17,7 @@ export function FeaturedOpportunitiesSection() {
             </Typography.Paragraph>
           </Col>
           <Col>
-            <Button type="link" className="main-linkBtn">
+            <Button type="link" className="main-linkBtn" onClick={() => navigate('/candidate/jobs')}>
               Explore All 2,410 Roles <ArrowRightOutlined />
             </Button>
           </Col>
@@ -23,7 +25,7 @@ export function FeaturedOpportunitiesSection() {
 
         <Row gutter={[16, 16]}>
           <Col xs={24} md={16}>
-            <Card className="main-card main-cardPrimary" variant="borderless">
+            <Card className="main-card main-cardPrimary" variant="borderless" style={{height: '100%'}}>
               <Space orientation="vertical" size={14} style={{ width: '100%' }}>
                 <Row justify="space-between" align="top">
                   <Col>

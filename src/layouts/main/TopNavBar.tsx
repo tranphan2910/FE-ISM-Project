@@ -1,17 +1,19 @@
 import { Button, ConfigProvider, Drawer, Grid, Layout, Menu, Space, theme, Typography } from 'antd'
 import { MenuOutlined } from '@ant-design/icons'
 import { useMemo, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { appEnv } from '@/config/env'
 
 type NavItem = { key: string; label: string; to: string }
 
 const navItems: NavItem[] = [
   { key: 'home', label: 'Home', to: '/' },
-  { key: 'jobs', label: 'Find Jobs', to: '/candidate/jobs' }
+  { key: 'jobs', label: 'Find Jobs', to: '/candidate/jobs' },  
+  { key: 'your-applications', label: 'Your Applications', to: '/candidate/your-applications' },
 ]
 
 export function TopNavBar() {
+  const navigate = useNavigate()
   const { token } = theme.useToken()
   const screens = Grid.useBreakpoint()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -137,7 +139,7 @@ export function TopNavBar() {
         ) : (
           <Space size={8}>
             <Link to="/main/jobs" style={{ textDecoration: 'none' }}>
-              <Button type="primary" onClick={() => setMobileOpen(false)}>
+              <Button type="primary" onClick={() => navigate('/hr/jobs')}>
                 Post a Job
               </Button>
             </Link>

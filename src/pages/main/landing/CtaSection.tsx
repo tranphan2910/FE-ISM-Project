@@ -1,6 +1,8 @@
 import { Button, Card, Space, Typography } from 'antd'
+import { useNavigate } from 'react-router'
 
 export function CtaSection() {
+  const navigate = useNavigate()
   return (
     <section className="main-section main-cta">
       <div>
@@ -15,10 +17,7 @@ export function CtaSection() {
               destination—it's a structure you build.
             </Typography.Paragraph>
             <Space size={12} wrap className="main-ctaActions">
-              <Button size="large">Find Opportunities</Button>
-              <Button size="large" ghost type="primary">
-                Talk to a Consultant
-              </Button>
+              <Button size="large" onClick={() => navigate('/candidate/jobs')}>Find Opportunities</Button>
             </Space>
           </div>
         </Card>

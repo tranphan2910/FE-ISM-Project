@@ -14,10 +14,12 @@ export function CandidateLayout() {
   const location = useLocation()
   const navigate = useNavigate()
   const showJobFilters =
-    location.pathname !== '/candidate/applications' && location.pathname !== '/candidate/profile'
+    location.pathname !== '/candidate/applications' &&
+    location.pathname !== '/candidate/your-applications' &&
+    location.pathname !== '/candidate/profile'
 
   const candidateMenuKey =
-    location.pathname === '/candidate/applications'
+    location.pathname === '/candidate/applications' || location.pathname === '/candidate/your-applications'
       ? 'applications'
       : location.pathname === '/candidate/profile'
         ? 'profile'
@@ -68,8 +70,8 @@ export function CandidateLayout() {
               {
                 key: 'applications',
                 icon: <AppstoreOutlined />,
-                label: 'My applications',
-                onClick: () => navigate('/candidate/applications'),
+                label: 'Your applications',
+                onClick: () => navigate('/candidate/your-applications'),
               },
               {
                 key: 'profile',
