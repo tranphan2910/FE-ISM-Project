@@ -1,6 +1,5 @@
 import { Layout, theme } from 'antd'
 import { Outlet } from 'react-router-dom'
-import { MainFooter } from './main/MainFooter'
 import { TopNavBar } from './main/TopNavBar'
 
 export function MainLayout() {
@@ -22,7 +21,6 @@ export function MainLayout() {
       >
         <Outlet />
       </Layout.Content>
-      <MainFooter />
     </Layout>
   )
 }
