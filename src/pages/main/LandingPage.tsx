@@ -1,19 +1,17 @@
-import { HeroSection } from './landing/HeroSection'
-import { NetworkStatsSection } from './landing/NetworkStatsSection'
-import { FeaturedOpportunitiesSection } from './landing/FeaturedOpportunitiesSection'
-import { TalentEmployersSection } from './landing/TalentEmployersSection'
-import { CompanyMarqueeSection } from './landing/CompanyMarqueeSection'
-import { CtaSection } from './landing/CtaSection'
+import { FooterSection } from './landing/FooterSection'
+import { LatestJobsSection } from './landing/LatestJobsSection'
+import { NewCtaSection } from './landing/NewCtaSection'
+import { NewHeroSection } from './landing/NewHeroSection'
+import { StatisticsBarSection } from './landing/StatisticsBarSection'
 
 export function LandingPage() {
   return (
     <>
-      <HeroSection />
-      <NetworkStatsSection />
-      <FeaturedOpportunitiesSection />
-      <TalentEmployersSection />
-      <CompanyMarqueeSection />
-      <CtaSection />
+      <NewHeroSection />
+      <StatisticsBarSection />
+      <LatestJobsSection />
+      <NewCtaSection />
+      <FooterSection />
     </>
   )
 }

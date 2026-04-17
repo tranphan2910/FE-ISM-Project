@@ -472,3 +472,67 @@
   }
 }
 
+/* New landing (token-driven sections) */
+.shadow-soft-blue {
+  box-shadow: 0 20px 55px rgba(0, 26, 67, 0.08);
+}
+
+.shadow-soft-blue-hover {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.shadow-soft-blue-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 60px rgba(0, 26, 67, 0.1);
+}
+
+.landing-heroAccent {
+  color: var(--landing-primary);
+  font-style: italic;
+}
+
+.landing-searchDivider {
+  width: 1px;
+  background: color-mix(in srgb, var(--landing-border) 40%, transparent);
+  margin: 8px 4px;
+}
+
+.landing-heroDeco {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 34%;
+  height: 100%;
+  opacity: 0.12;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at center, var(--landing-primary) 0%, transparent 60%);
+}
+
+.landing-browseLink :where(.anticon) {
+  transition: transform 180ms ease;
+}
+
+.landing-browseLink:hover :where(.anticon) {
+  transform: translateX(4px);
+}
+
+.landing-jobCard:hover .landing-jobTitle {
+  color: var(--landing-primary);
+}
+
+.landing-ctaMediaOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.2), transparent 60%);
+}
+
+@media (max-width: 575px) {
+  .landing-searchDivider {
+    display: none;
+  }
+}
+
