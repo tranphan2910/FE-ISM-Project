@@ -12,6 +12,7 @@ import {
   Flex,
   Image,
   Pagination,
+  Result,
   Row,
   Space,
   Tag,
@@ -20,79 +21,60 @@ import {
 } from 'antd'
 import type { CSSProperties } from 'react'
 import { useMemo, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
+
+import { getCandidateJobById } from '@/data/candidateJobs'
+import type { ApplicationStatus, StoredJobApplication } from '@/lib/candidateApplicationsStorage'
+import { listJobApplications } from '@/lib/candidateApplicationsStorage'
 
 const PIPELINE_BG =
   'https://lh3.googleusercontent.com/aida-public/AB6AXuBmrWT5hOOytaPJF8g5Hg4lP0mNxMaL3NyyHm_hv6YAprmcgngacokNZqQIVIYY_piu4ZjkwwVDDV8uGqjwnrzLIx8BNspsgRMPu-RN7-Q09SLjvzMO5kChuj5XF4ScN2A1JXvWSopmh8wWdc9B-or1gCUTAwzaGkWv3W0VBPlU6xOxvysUw6yPp_K3c1_t-CdY-WCIt-IMm-YA05wboIJmzi5bH_jOMcKIMaLbwYMyrurRxKqSUOgRe4Oc0OOqsE2AGgWS4ygCew'
 
 type PipelineFilter = 'all' | 'interviewing' | 'new'
 
-type CandidateStatus = 'interviewing' | 'applied' | 'screening' | 'rejected'
+type PipelineUiStatus = 'interviewing' | 'applied' | 'screening' | 'rejected'
 
-type CandidateRow = {
-  id: string
+type PipelineRow = {
+  applicationId: string
   name: string
   subtitle: string
-  status: CandidateStatus
-  appliedAt: string
-  avatar?: string
-  avatarAlt?: string
-  initials?: string
-  mutedActions?: boolean
+  uiStatus: PipelineUiStatus
+  appliedAtLabel: string
+  avatarUrl?: string
+  resumeDataUrl: string
+  resumeFileName: string
 }
 
-const CANDIDATES: CandidateRow[] = [
-  {
-    id: '1',
-    name: 'Elena Rodriguez',
-    subtitle: 'Lead Designer @ Stripe',
-    status: 'interviewing',
-    appliedAt: 'Oct 12, 2023',
-    avatar:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuC03UTvdJMO_C57eXFgnumvpwcygjFkxlHtZuRQJnMOGUjYZi2FshZiIGTwkK3pslHcKjColpNvT9NiGn673GV5CFYM0rPJpheFo1b64xXh9UXwKv3uNP6nwkhPgO-rrebHIRxtPhYAjRmgpcGSfc_FO_MzvD3uUoo30nHNvR5_vZqfmaY2khkGgqT7dswJQ8w9QMbyh2AkxouCc5owHtBXnzqED1ykbDog8M2_4foC_JreZyRFkPB-8zHhFFcytzoAm84N2hnSJQ',
-    avatarAlt: 'Portrait of a creative professional woman with warm expression, wearing stylish glasses, soft studio lighting',
-  },
-  {
-    id: '2',
-    name: 'Marcus Thorne',
-    subtitle: 'Senior UX at Meta',
-    status: 'applied',
-    appliedAt: 'Oct 14, 2023',
-    avatar:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCQsJ5GTCDa7hUPVnlcnJZzrZUw5timzbksPh2-oZXaMjdpVY-KyyensfM7oCgDxLKC9UtErxvBP5egc-Od9RW2Bbf6vGbbPqLvQC_m2HwH3F9T1LpSsXyyCmXazXAk0474jOHgir15pnS14V_NEr4UdT8yPqGWjlyEYzD-Kp_vNoFimuwbfghCDXN-Nw8LTqrzSPkDEwaJn7i1ZRLSy_ueSn240IkHUebrk9tu3XiLuWel7V3WAGwPTuqx6kLzFw2tUjiZnyo57A',
-    avatarAlt: 'Close up portrait of a young man with a focused and professional demeanor, natural outdoor lighting',
-  },
-  {
-    id: '3',
-    name: 'Sarah Chen',
-    subtitle: 'Independent Consultant',
-    status: 'screening',
-    appliedAt: 'Oct 15, 2023',
-    initials: 'SC',
-  },
-  {
-    id: '4',
-    name: 'Julian Banks',
-    subtitle: 'Product Lead @ Figma',
-    status: 'rejected',
-    appliedAt: 'Oct 10, 2023',
-    avatar:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuA8JyXZ-V6RpqjdqGz7e6eMdhpv-OXM-pSdSwc3wk_JxPYCtQro0zbBj8mWb6weFBjfcRoEEBM2GV1CIzlfO_NNXZyPXIOYP6E3cGDuhv6e8qY_jEMaAWa3yNEEgYRaITRR3bxWmmmR3Bz7Lf9uO9IMgRMDq0_Ihp_MXBM3znLmY--cx3gObvBlm3v7l4e49IM0Gge0A8Do7RZ29blZjOlPcF9J_95YiD0IapT3AAQYD_7uFR6CPpRoVbF7UuULV9YTGERCWPnWcQ',
-    avatarAlt: 'Middle-aged man with beard and friendly expression, professional business casual attire',
-    mutedActions: true,
-  },
-]
-
-const JOB_META: Record<string, { title: string; location: string }> = {
-  '1': { title: 'Senior Creative Director', location: 'London, UK / Hybrid' },
-  '2': { title: 'Principal Backend Engineer', location: 'Remote' },
-  '3': { title: 'Head of Product Design', location: 'New York' },
+function formatAppliedShort(iso: string) {
+  try {
+    return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(iso))
+  } catch {
+    return iso
+  }
 }
 
-const PIPELINE = { total: 128, applied: 42, interviewing: 18, offered: 3 }
+function applicationToUiStatus(s: ApplicationStatus): PipelineUiStatus {
+  if (s === 'interviewing') return 'interviewing'
+  if (s === 'applied') return 'applied'
+  if (s === 'under_review') return 'screening'
+  return 'rejected'
+}
+
+function toPipelineRow(a: StoredJobApplication): PipelineRow {
+  return {
+    applicationId: a.id,
+    name: a.applicantDisplayName ?? '—',
+    subtitle: a.applicantEmail ?? a.jobTitle,
+    uiStatus: applicationToUiStatus(a.status),
+    appliedAtLabel: formatAppliedShort(a.appliedAt),
+    avatarUrl: a.applicantAvatarUrl,
+    resumeDataUrl: a.resumeDataUrl,
+    resumeFileName: a.resumeFileName,
+  }
+}
 
 function statusTag(
-  status: CandidateStatus,
+  status: PipelineUiStatus,
   token: ReturnType<typeof theme.useToken>['token'],
 ): { label: string; style: CSSProperties } {
   const base: CSSProperties = {
@@ -117,25 +99,33 @@ function statusTag(
       }
     case 'screening':
       return {
-        label: 'Screening',
+        label: 'Under review',
         style: { ...base, background: token.colorFillSecondary, color: token.colorTextSecondary },
       }
     default:
       return {
-        label: 'Rejected',
+        label: 'Closed',
         style: { ...base, background: token.colorErrorBg, color: token.colorError },
       }
   }
 }
 
-function CandidateTableRow({ row, token }: { row: CandidateRow; token: ReturnType<typeof theme.useToken>['token'] }) {
+function CandidateTableRow({ row, token }: { row: PipelineRow; token: ReturnType<typeof theme.useToken>['token'] }) {
   const [hovered, setHovered] = useState(false)
-  const st = statusTag(row.status, token)
+  const st = statusTag(row.uiStatus, token)
 
   const rowStyle: CSSProperties = {
     padding: `${token.paddingLG}px ${token.paddingLG * 1.5}px`,
     transition: `background ${token.motionDurationMid}`,
   }
+
+  const initials =
+    row.name
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((p) => p[0]?.toUpperCase())
+      .join('') || '?'
 
   return (
     <Row
@@ -153,8 +143,8 @@ function CandidateTableRow({ row, token }: { row: CandidateRow; token: ReturnTyp
     >
       <Col xs={24} lg={8}>
         <Flex align="center" gap={token.margin}>
-          {row.avatar ? (
-            <Avatar src={row.avatar} size={48} shape="square" style={{ borderRadius: token.borderRadiusLG }} alt={row.avatarAlt} />
+          {row.avatarUrl ? (
+            <Avatar src={row.avatarUrl} size={48} shape="square" style={{ borderRadius: token.borderRadiusLG }} alt="" />
           ) : (
             <Avatar
               size={48}
@@ -166,11 +156,18 @@ function CandidateTableRow({ row, token }: { row: CandidateRow; token: ReturnTyp
                 fontWeight: 700,
               }}
             >
-              {row.initials}
+              {initials}
             </Avatar>
           )}
           <div>
-            <Typography.Text strong style={{ display: 'block', color: hovered ? token.colorPrimary : token.colorText, transition: `color ${token.motionDurationMid}` }}>
+            <Typography.Text
+              strong
+              style={{
+                display: 'block',
+                color: hovered ? token.colorPrimary : token.colorText,
+                transition: `color ${token.motionDurationMid}`,
+              }}
+            >
               {row.name}
             </Typography.Text>
             <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM }}>
@@ -184,19 +181,11 @@ function CandidateTableRow({ row, token }: { row: CandidateRow; token: ReturnTyp
       </Col>
       <Col xs={24} lg={4} style={{ textAlign: 'center' }}>
         <Typography.Text type="secondary" style={{ fontSize: token.fontSize }}>
-          {row.appliedAt}
+          {row.appliedAtLabel}
         </Typography.Text>
       </Col>
       <Col xs={24} lg={7}>
-        <Flex
-          justify="flex-end"
-          gap={token.marginSM}
-          wrap="wrap"
-          style={{
-            opacity: row.mutedActions && !hovered ? 0.5 : 1,
-            transition: `opacity ${token.motionDurationMid}`,
-          }}
-        >
+        <Flex justify="flex-end" gap={token.marginSM} wrap="wrap">
           <Button
             type="default"
             icon={<FileTextOutlined />}
@@ -206,8 +195,12 @@ function CandidateTableRow({ row, token }: { row: CandidateRow; token: ReturnTyp
               borderColor: `color-mix(in srgb, ${token.colorBorder} 55%, transparent)`,
             }}
             aria-label="Resume"
+            href={row.resumeDataUrl}
+            download={row.resumeFileName}
+            target="_blank"
+            rel="noreferrer"
           />
-          <Link to={`/hr/candidate/${row.id}`}>
+          <Link to={`/hr/candidate/${row.applicationId}`}>
             <Button
               type="default"
               style={{
@@ -218,7 +211,7 @@ function CandidateTableRow({ row, token }: { row: CandidateRow; token: ReturnTyp
                 borderColor: `color-mix(in srgb, ${token.colorBorder} 55%, transparent)`,
               }}
             >
-              View Profile
+              View application
             </Button>
           </Link>
         </Flex>
@@ -228,24 +221,45 @@ function CandidateTableRow({ row, token }: { row: CandidateRow; token: ReturnTyp
 }
 
 export function HrJobDetailsPage() {
-  const { id = '1' } = useParams()
+  const { id } = useParams()
+  const location = useLocation()
+  const jobId = id ?? ''
   const { token } = theme.useToken()
   const [pipelineFilter, setPipelineFilter] = useState<PipelineFilter>('all')
   const [page, setPage] = useState(1)
 
-  const job = JOB_META[id] ?? { title: 'Senior Product Designer', location: 'New York / Remote' }
+  const catalogJob = getCandidateJobById(jobId)
+  const appsForJob = useMemo(
+    () => listJobApplications().filter((a) => a.jobId === jobId),
+    [jobId, location.key],
+  )
 
-  const filteredCandidates = useMemo(() => {
-    if (pipelineFilter === 'all') return CANDIDATES
-    if (pipelineFilter === 'interviewing') return CANDIDATES.filter((c) => c.status === 'interviewing')
-    return CANDIDATES.filter((c) => c.status === 'applied' || c.status === 'screening')
-  }, [pipelineFilter])
+  const jobTitle = catalogJob?.title ?? appsForJob[0]?.jobTitle
+  const jobLocation = catalogJob?.location ?? '—'
+
+  const pipelineRows = useMemo(() => appsForJob.map(toPipelineRow), [appsForJob])
+
+  const filteredRows = useMemo(() => {
+    if (pipelineFilter === 'all') return pipelineRows
+    if (pipelineFilter === 'interviewing') return pipelineRows.filter((r) => r.uiStatus === 'interviewing')
+    return pipelineRows.filter((r) => r.uiStatus === 'applied' || r.uiStatus === 'screening')
+  }, [pipelineFilter, pipelineRows])
+
+  const stats = useMemo(() => {
+    const apps = appsForJob
+    return {
+      total: apps.length,
+      applied: apps.filter((a) => a.status === 'applied').length,
+      interviewing: apps.filter((a) => a.status === 'interviewing').length,
+      closed: apps.filter((a) => a.status === 'closed').length,
+    }
+  }, [appsForJob])
 
   const pageSize = 4
   const paged = useMemo(() => {
     const start = (page - 1) * pageSize
-    return filteredCandidates.slice(start, start + pageSize)
-  }, [filteredCandidates, page])
+    return filteredRows.slice(start, start + pageSize)
+  }, [filteredRows, page])
 
   const pipelineCardStyle: CSSProperties = {
     background: token.colorFillAlter,
@@ -311,17 +325,42 @@ export function HrJobDetailsPage() {
     )
   }
 
+  if (!jobId || (!catalogJob && appsForJob.length === 0)) {
+    return (
+      <div style={{ maxWidth: 640, margin: '48px auto' }}>
+        <Result
+          status="404"
+          title="Job not found"
+          subTitle="There is no job with this id, or no applications yet."
+          extra={
+            <Link to="/hr/jobs">
+              <Button type="primary">Back to jobs</Button>
+            </Link>
+          }
+        />
+      </div>
+    )
+  }
+
+  const highlightCount = Math.min(3, stats.total)
+
   return (
     <div style={{ maxWidth: 1280, margin: '0 auto' }}>
       <Flex vertical gap={token.marginXL * 1.25}>
         <Flex justify="space-between" align="flex-end" wrap="wrap" gap={token.marginLG}>
           <div>
             <Breadcrumb
-              style={{ marginBottom: token.marginMD, fontSize: token.fontSizeSM, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.08em' }}
+              style={{
+                marginBottom: token.marginMD,
+                fontSize: token.fontSizeSM,
+                fontWeight: 500,
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+              }}
               items={[
                 {
                   title: (
-                    <Link to="/hr/my-job" style={{ color: token.colorTextSecondary }}>
+                    <Link to="/hr/jobs" style={{ color: token.colorTextSecondary }}>
                       Jobs
                     </Link>
                   ),
@@ -333,7 +372,7 @@ export function HrJobDetailsPage() {
               separator={<RightOutlined style={{ fontSize: 10, color: token.colorTextTertiary }} />}
             />
             <Typography.Title level={2} style={{ margin: 0, fontWeight: 800, letterSpacing: '-0.02em' }}>
-              {job.title}
+              {jobTitle ?? 'Role'}
             </Typography.Title>
             <Flex gap={token.marginSM} wrap="wrap" style={{ marginTop: token.margin }}>
               <Tag
@@ -373,7 +412,7 @@ export function HrJobDetailsPage() {
                   color: token.colorTextSecondary,
                 }}
               >
-                {job.location}
+                {jobLocation}
               </Tag>
             </Flex>
           </div>
@@ -403,7 +442,7 @@ export function HrJobDetailsPage() {
                   Total Pipeline
                 </Typography.Text>
                 <Typography.Title level={2} style={{ margin: `${token.marginXXS}px 0 0`, fontSize: 48, fontWeight: 800 }}>
-                  {PIPELINE.total}
+                  {stats.total}
                 </Typography.Title>
                 <Flex gap={token.marginLG} wrap="wrap" style={{ marginTop: token.marginLG }}>
                   <div>
@@ -419,7 +458,7 @@ export function HrJobDetailsPage() {
                       APPLIED
                     </Typography.Text>
                     <Typography.Text strong style={{ fontSize: token.fontSizeHeading3 }}>
-                      {PIPELINE.applied}
+                      {stats.applied}
                     </Typography.Text>
                   </div>
                   <div>
@@ -435,7 +474,7 @@ export function HrJobDetailsPage() {
                       INTERVIEWING
                     </Typography.Text>
                     <Typography.Text strong style={{ fontSize: token.fontSizeHeading3, color: token.colorPrimary }}>
-                      {PIPELINE.interviewing}
+                      {stats.interviewing}
                     </Typography.Text>
                   </div>
                   <div>
@@ -448,10 +487,10 @@ export function HrJobDetailsPage() {
                         marginBottom: token.marginXXS,
                       }}
                     >
-                      OFFERED
+                      CLOSED
                     </Typography.Text>
                     <Typography.Text strong style={{ fontSize: token.fontSizeHeading3 }}>
-                      {PIPELINE.offered}
+                      {stats.closed}
                     </Typography.Text>
                   </div>
                 </Flex>
@@ -467,29 +506,44 @@ export function HrJobDetailsPage() {
                   pointerEvents: 'none',
                 }}
               >
-                <Image src={PIPELINE_BG} alt="Abstract growth visualization" preview={false} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <Image src={PIPELINE_BG} alt="" preview={false} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </div>
           </Col>
           <Col xs={24} lg={8}>
             <div style={alertCardStyle}>
-              <Typography.Text style={{ color: `color-mix(in srgb, ${token.colorTextLightSolid} 88%, transparent)`, fontWeight: 500, fontSize: token.fontSizeSM, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                Top Talent Alert
-              </Typography.Text>
-              <Typography.Title level={4} style={{ color: token.colorTextLightSolid, margin: `${token.marginSM}px 0 ${token.margin}px`, fontWeight: 700, lineHeight: 1.35 }}>
-                3 candidates match 95%+ of core requirements
-              </Typography.Title>
-              <Button
+              <Typography.Text
                 style={{
-                  marginTop: token.marginSM,
-                  fontWeight: 700,
-                  borderRadius: token.borderRadiusLG,
-                  color: token.colorPrimary,
-                  border: 'none',
+                  color: `color-mix(in srgb, ${token.colorTextLightSolid} 88%, transparent)`,
+                  fontWeight: 500,
+                  fontSize: token.fontSizeSM,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
                 }}
               >
-                View Recommended
-              </Button>
+                Top Talent Alert
+              </Typography.Text>
+              <Typography.Title
+                level={4}
+                style={{ color: token.colorTextLightSolid, margin: `${token.marginSM}px 0 ${token.margin}px`, fontWeight: 700, lineHeight: 1.35 }}
+              >
+                {stats.total === 0
+                  ? 'No applications yet for this role'
+                  : `${highlightCount} candidate${highlightCount === 1 ? '' : 's'} in the active pipeline`}
+              </Typography.Title>
+              <Link to="/hr/candidates">
+                <Button
+                  style={{
+                    marginTop: token.marginSM,
+                    fontWeight: 700,
+                    borderRadius: token.borderRadiusLG,
+                    color: token.colorPrimary,
+                    border: 'none',
+                  }}
+                >
+                  View all candidates
+                </Button>
+              </Link>
               <StarFilled
                 style={{
                   position: 'absolute',
@@ -532,9 +586,13 @@ export function HrJobDetailsPage() {
               </Col>
             </Row>
 
-            {paged.map((row) => (
-              <CandidateTableRow key={row.id} row={row} token={token} />
-            ))}
+            {paged.length === 0 ? (
+              <div style={{ padding: token.paddingLG * 2, textAlign: 'center' }}>
+                <Typography.Text type="secondary">No candidates in this view.</Typography.Text>
+              </div>
+            ) : (
+              paged.map((row) => <CandidateTableRow key={row.applicationId} row={row} token={token} />)
+            )}
           </div>
 
           <Flex
@@ -549,12 +607,12 @@ export function HrJobDetailsPage() {
           >
             <Typography.Text type="secondary" style={{ fontSize: token.fontSizeSM, fontWeight: 500 }}>
               Showing {paged.length === 0 ? 0 : (page - 1) * pageSize + 1}–{(page - 1) * pageSize + paged.length} of{' '}
-              {PIPELINE.total} candidates
+              {filteredRows.length} candidates
             </Typography.Text>
             <Pagination
               size="small"
               current={page}
-              total={filteredCandidates.length}
+              total={filteredRows.length}
               pageSize={pageSize}
               onChange={setPage}
               showSizeChanger={false}

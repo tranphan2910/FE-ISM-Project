@@ -1,3 +1,5 @@
+import { getCandidateProfile } from '@/lib/candidateProfileStorage'
+
 export type ApplicationStatus = 'applied' | 'interviewing' | 'under_review' | 'closed'
 
 export type StoredJobApplication = {
@@ -11,6 +13,10 @@ export type StoredJobApplication = {
   resumeFileName: string
   /** data:application/pdf;base64,... for download / open in new tab */
   resumeDataUrl: string
+  /** Snapshot from profile at apply time (optional for legacy rows) */
+  applicantDisplayName?: string
+  applicantEmail?: string
+  applicantAvatarUrl?: string
 }
 
 const STORAGE_KEY = 'ism_candidate_job_applications_v1'
@@ -41,10 +47,41 @@ export function listJobApplications(): StoredJobApplication[] {
   return readRaw().sort((a, b) => new Date(b.appliedAt).getTime() - new Date(a.appliedAt).getTime())
 }
 
-export function addJobApplication(entry: Omit<StoredJobApplication, 'id' | 'appliedAt'> & { appliedAt?: string }) {
+export function getJobApplicationById(id: string | undefined): StoredJobApplication | undefined {
+  if (!id) return undefined
+  return readRaw().find((a) => a.id === id)
+}
+
+export function updateJobApplicationStatus(id: string, status: ApplicationStatus): StoredJobApplication | undefined {
+  const list = readRaw()
+  let next: StoredJobApplication | undefined
+  const mapped = list.map((a) => {
+    if (a.id === id) {
+      next = { ...a, status }
+      return next
+    }
+    return a
+  })
+  if (!next) return undefined
+  writeRaw(mapped)
+  return next
+}
+
+export function addJobApplication(
+  entry: Omit<StoredJobApplication, 'id' | 'appliedAt'> & {
+    appliedAt?: string
+    applicantDisplayName?: string
+    applicantEmail?: string
+    applicantAvatarUrl?: string
+  },
+) {
+  const profile = getCandidateProfile()
   const list = readRaw()
   const row: StoredJobApplication = {
     ...entry,
+    applicantDisplayName: entry.applicantDisplayName ?? profile.displayName,
+    applicantEmail: entry.applicantEmail ?? profile.email,
+    applicantAvatarUrl: entry.applicantAvatarUrl ?? profile.avatarUrl,
     id: typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
     appliedAt: entry.appliedAt ?? new Date().toISOString(),
   }
