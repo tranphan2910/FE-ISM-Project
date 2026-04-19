@@ -63,36 +63,203 @@
 
 .candidate-jobsMain {
   background: var(--candidate-bg-layout, #fcfcfc);
+  /* Full-bleed within CandidateLayout outlet (parent has padding: 24px) */
+  width: calc(100% + 48px);
+  max-width: none;
+  margin-left: -24px;
+  margin-right: -24px;
+  box-sizing: border-box;
+}
+
+.candidate-jobsHero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: url('../assets/images/jobs-hero-bg.jpg') center/cover no-repeat;
+}
+
+.candidate-jobsHeroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(22, 119, 255, 0.55));
+  pointer-events: none;
+}
+
+.candidate-jobsHeroContent {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  padding: clamp(14px, 2vh, 20px) clamp(16px, 3vw, 28px);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.candidate-jobsHeroTitle.ant-typography {
+  margin: 0 0 4px !important;
+  font-weight: 950 !important;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: rgba(255, 255, 255, 0.98) !important;
+  font-size: clamp(20px, 2.6vw, 28px) !important;
+}
+
+.candidate-jobsHeroSubtitle {
+  display: block;
+  color: rgba(255, 255, 255, 0.88) !important;
+  font-weight: 650;
+  font-size: clamp(13px, 1.5vw, 15px);
 }
 
 .candidate-jobsContainer {
-  max-width: 1024px;
-  margin: 0 auto;
-  padding: 48px;
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: clamp(28px, 3vw, 40px) clamp(16px, 3vw, 36px) clamp(40px, 5vh, 64px);
+  box-sizing: border-box;
+}
+
+.candidate-jobsSplit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, min(520px, 42vw));
+  gap: clamp(20px, 2.5vw, 36px);
+  align-items: start;
+}
+
+.candidate-jobsListCol {
+  min-width: 0;
+}
+
+.candidate-jobsListInner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.candidate-jobsPreviewCol {
+  min-width: 0;
+}
+
+.candidate-jobPreviewSticky {
+  position: sticky;
+  top: 96px;
+  max-height: calc(100vh - 104px);
+  overflow-y: auto;
+}
+
+.candidate-jobPreview {
+  background: var(--candidate-bg);
+  border: 1px solid color-mix(in srgb, var(--candidate-border) 45%, transparent);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--candidate-text) 8%, transparent);
+}
+
+.candidate-jobPreviewMedia {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: color-mix(in srgb, var(--candidate-border) 30%, transparent);
+}
+
+.candidate-jobPreviewMedia :where(.ant-image) {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.candidate-jobPreviewMedia :where(.ant-image-img) {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.candidate-jobPreviewMediaShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, color-mix(in srgb, var(--candidate-text) 38%, transparent), transparent 52%);
+  pointer-events: none;
+}
+
+.candidate-jobPreviewBody {
+  padding: 22px 22px 24px;
+}
+
+.candidate-jobPreviewTitle.ant-typography {
+  font-weight: 850 !important;
+  letter-spacing: -0.03em;
+  line-height: 1.2 !important;
+}
+
+.candidate-jobPreviewSummary {
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.candidate-jobPreviewSecondaryBtn.ant-btn {
+  height: 44px;
+  border-radius: 10px;
+  font-weight: 750;
 }
 
 .candidate-jobCard {
+  cursor: pointer;
   background: var(--candidate-bg);
   border: 1px solid color-mix(in srgb, var(--candidate-border) 45%, transparent);
-  border-radius: 14px;
-  padding: 32px;
-  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  border-radius: 16px;
+  padding: 28px 32px;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms ease;
+}
+
+.candidate-jobCard:focus {
+  outline: none;
+}
+
+.candidate-jobCard:focus-visible {
+  outline: 2px solid var(--candidate-primary);
+  outline-offset: 3px;
 }
 
 .candidate-jobCard:hover {
-  border-color: color-mix(in srgb, var(--candidate-primary) 30%, transparent);
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--candidate-text) 10%, transparent);
+  border-color: color-mix(in srgb, var(--candidate-primary) 35%, transparent);
+  box-shadow:
+    0 12px 36px color-mix(in srgb, var(--candidate-text) 12%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--candidate-primary) 12%, transparent);
+  transform: translateY(-2px);
+}
+
+.candidate-jobCard--selected {
+  border-color: color-mix(in srgb, var(--candidate-primary) 50%, transparent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--candidate-primary) 20%, transparent),
+    0 10px 28px color-mix(in srgb, var(--candidate-primary) 14%, transparent);
+}
+
+.candidate-jobCard--selected .candidate-jobTitle {
+  color: var(--candidate-primary);
+}
+
+.candidate-jobCard--selected:hover {
+  transform: translateY(-2px);
 }
 
 .candidate-jobLogoBox {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+  width: 104px;
+  height: 104px;
+  border-radius: 20px;
   background: color-mix(in srgb, var(--candidate-border) 16%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 1px solid color-mix(in srgb, var(--candidate-border) 35%, transparent);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--candidate-text) 8%, transparent);
 }
 
 .candidate-jobLogo {
@@ -106,17 +273,63 @@
   opacity: 0.95;
 }
 
+.candidate-jobTitleRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.candidate-jobHeatBadge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  color: #fff;
+  line-height: 1.2;
+  box-shadow: 0 2px 10px color-mix(in srgb, #000 18%, transparent);
+}
+
+.candidate-jobHeatBadge--lg {
+  padding: 5px 14px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.candidate-jobHeatBadge--super_hot {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 45%, #dc2626 100%);
+}
+
+.candidate-jobHeatBadge--hot {
+  background: linear-gradient(135deg, #fb7185 0%, #f43f5e 100%);
+}
+
+.candidate-jobHeatBadge--trending {
+  background: linear-gradient(135deg, var(--candidate-primary) 0%, #6366f1 100%);
+}
+
+.candidate-jobHeatBadge--new {
+  background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+}
+
 .candidate-jobTitleLink {
   text-decoration: none;
 }
 
 .candidate-jobTitle {
   display: inline-block;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--candidate-text);
-  margin-bottom: 6px;
+  margin-bottom: 0;
   transition: color 160ms ease;
+  letter-spacing: -0.02em;
 }
 
 .candidate-jobCard:hover .candidate-jobTitle {
@@ -135,16 +348,41 @@
   font-weight: 700;
 }
 
+.candidate-jobTagList {
+  margin-top: 14px;
+}
+
 .candidate-jobTag {
-  padding: 2px 8px;
-  font-size: 11px;
-  font-weight: 700;
-  color: color-mix(in srgb, var(--candidate-text) 80%, transparent);
-  background: color-mix(in srgb, var(--candidate-bg) 94%, var(--candidate-border));
-  border: 1px solid color-mix(in srgb, var(--candidate-border) 55%, transparent);
-  border-radius: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: color-mix(in srgb, var(--candidate-text) 92%, var(--candidate-primary));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--candidate-primary) 16%, var(--candidate-bg)) 0%,
+    color-mix(in srgb, var(--candidate-primary) 10%, var(--candidate-bg)) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--candidate-primary) 42%, transparent);
+  border-radius: 999px;
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 55%, transparent),
+    0 4px 12px color-mix(in srgb, var(--candidate-primary) 14%, transparent);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.candidate-jobCard:hover .candidate-jobTag {
+  border-color: color-mix(in srgb, var(--candidate-primary) 58%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 45%, transparent),
+    0 6px 16px color-mix(in srgb, var(--candidate-primary) 22%, transparent);
+  transform: translateY(-1px);
 }
 
 .candidate-applyBtn.ant-btn {
@@ -295,13 +533,24 @@
 }
 
 .candidate-pill {
-  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
   border-radius: 999px;
-  font-size: 12px;
-  font-weight: 650;
-  color: color-mix(in srgb, var(--candidate-text) 82%, transparent);
-  background: color-mix(in srgb, var(--candidate-primary) 10%, var(--candidate-bg));
-  border: 1px solid color-mix(in srgb, var(--candidate-primary) 16%, transparent);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: color-mix(in srgb, var(--candidate-text) 92%, var(--candidate-primary));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--candidate-primary) 16%, var(--candidate-bg)) 0%,
+    color-mix(in srgb, var(--candidate-primary) 10%, var(--candidate-bg)) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--candidate-primary) 42%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 55%, transparent),
+    0 4px 12px color-mix(in srgb, var(--candidate-primary) 14%, transparent);
 }
 
 .candidate-heroCard {
@@ -377,6 +626,70 @@
 .candidate-detailFooterLink:hover {
   color: var(--candidate-primary);
   opacity: 1;
+}
+
+/* Candidate jobs list — responsive */
+@media (max-width: 991px) {
+  .candidate-jobsSplit {
+    grid-template-columns: 1fr;
+  }
+
+  .candidate-jobPreviewSticky {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 767px) {
+  .candidate-jobsHeroContent {
+    padding: 14px 16px;
+  }
+
+  .candidate-jobsContainer {
+    padding: 28px 16px 40px;
+  }
+
+  .candidate-jobCard {
+    padding: 20px 18px;
+  }
+
+  .candidate-jobTitle {
+    font-size: 18px;
+  }
+
+  .candidate-jobTitleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .candidate-jobTag {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .candidate-jobLogoBox {
+    width: 88px;
+    height: 88px;
+    border-radius: 16px;
+  }
+
+  .candidate-jobCard .candidate-jobLogo.ant-image {
+    width: 72px !important;
+    height: 72px !important;
+  }
+
+  .candidate-jobCard .candidate-jobLogo.ant-image .ant-image-img {
+    width: 72px !important;
+    height: 72px !important;
+  }
+
+  .candidate-paginationBar {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
 }
 
 /* Apply job modal (portaled; structural z-index only — colors come from antd tokens in component) */

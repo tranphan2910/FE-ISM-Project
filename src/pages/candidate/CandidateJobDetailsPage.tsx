@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import { JobApplyModal } from '@/components/candidate/JobApplyModal.tsx'
-import { getCandidateJobById } from '@/data/candidateJobs'
+import { JOB_HEAT_BADGE_LABELS, getCandidateJobById } from '@/data/candidateJobs'
 import { addJobApplication, fileToDataUrl } from '@/lib/candidateApplicationsStorage'
 
 const { Title, Text, Paragraph } = Typography
@@ -47,9 +47,19 @@ export function CandidateJobDetailsPage() {
                 ]}
               />
 
-              <Title className="candidate-jobH1" level={1} style={{ marginTop: 8, marginBottom: 10 }}>
-                {job.title}
-              </Title>
+              <Flex align="center" wrap gap={12} style={{ marginTop: 8, marginBottom: 10 }}>
+                {job.heatBadge ? (
+                  <span
+                    className={`candidate-jobHeatBadge candidate-jobHeatBadge--lg candidate-jobHeatBadge--${job.heatBadge}`}
+                    aria-label={JOB_HEAT_BADGE_LABELS[job.heatBadge]}
+                  >
+                    {JOB_HEAT_BADGE_LABELS[job.heatBadge]}
+                  </span>
+                ) : null}
+                <Title className="candidate-jobH1" level={1} style={{ margin: 0, flex: '1 1 280px', minWidth: 0 }}>
+                  {job.title}
+                </Title>
+              </Flex>
 
               <Flex wrap gap={18} align="center">
                 <Flex gap={8} align="center">
@@ -93,8 +103,8 @@ export function CandidateJobDetailsPage() {
         <Col xs={24} lg={16}>
           <div className="candidate-heroCard">
             <Image
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuACWvZjY1IECpGTTK9pcOtD5BJM7oN-vnLahcnr1uUCCF_V_5zsnMlWR479sptIg616lSB5rL08JCwYvCuCi5EHUJHFjAAAk1BfLwVBpWBmrd6mjiJj_euCPiVotuhedjStX6zGodJgDZLpE_1v6gNbDMZiCSvscDnCVzXVyRey0cl4V1OhDLj7oDZ1GveoLN_7vtVfBMyrKo4yfjlLH67WAvl3lzPYR-kxXloIp3_2B-D0s3Uf0405GMCPJqLfEXNj6PF58OlN-g"
-              alt="Designer Workspace"
+              src={job.coverImageUrl}
+              alt=""
               preview={false}
               width="100%"
               height="100%"
